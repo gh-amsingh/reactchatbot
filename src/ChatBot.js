@@ -84,6 +84,7 @@ const ChatBot = ({ onLogout }) => {
   const sendMessage = () => {
     if (!input.trim()) return;
     setLoading(true);
+    setInput("");
     setMessages((prev) => [ ...prev, { sender: "You", text: input } ]);
     axios
       .get(`https://66ublhyq3d4dmlljm5iqfasb6i0vykgu.lambda-url.us-west-2.on.aws/prompt?question=${encodeURIComponent(input)}`)
@@ -101,6 +102,7 @@ const ChatBot = ({ onLogout }) => {
       .catch(() => {
         setMessages((prev) => [ ...prev, { sender: "Assistant", text: "Response not found." } ]);
         setLoading(false);
+        setInput("");
       });
   };
 
