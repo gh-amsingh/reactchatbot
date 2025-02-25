@@ -3,8 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 
 
-
-const background_image = "url('https://static.vecteezy.com/system/resources/previews/002/861/390/non_2x/artificial-intelligence-abstract-geometric-human-head-outline-with-circuit-board-technology-and-engineering-concept-background-illustration-free-vector.jpg')";
+const background_image = "url('')";
 const Login = ({ onLogin }) => {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
@@ -35,7 +34,7 @@ const Login = ({ onLogin }) => {
     className="flex flex-col items-center justify-center h-screen bg-cover bg-center"
     style={{ backgroundImage: background_image }} // Replace with your desired image URL
   >
-    <div className="p-6 bg-white bg-opacity-90 rounded-lg shadow-lg w-97 border border-gray-300" style={{ marginLeft: '60%' }}>
+    <div className="p-6 bg-white bg-opacity-90 rounded-lg shadow-lg w-97 border border-gray-300" style={{ marginLeft: '7%' }}>
       <h2 className="text-2xl font-semibold mb-4 text-black">Login</h2>
       {error && <p className="text-red-500">{error}</p>}
       <input
@@ -54,7 +53,7 @@ const Login = ({ onLogin }) => {
       />
       <button
         onClick={handleLogin}
-        className="bg-blue-900 text-white hover:bg-red-600 hover:text-white px-4 py-2 rounded-lg w-full transition duration-300"
+        className="bg-[#005cb9] text-white hover:bg-red-600 hover:text-white px-4 py-2 rounded-lg w-full transition duration-300"
         disabled={loading}
       >
         {loading ? "Loading..." : "Login"}
@@ -116,7 +115,7 @@ const ChatBot = ({ onLogout }) => {
     style={{ backgroundImage: background_image }} // Replace with your desired image URL
   >
       {/* Sidebar for Sample Questions */}
-      <aside className="w-64 bg-blue-900 text-white p-6 hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] overflow-y-auto shadow-lg rounded-lg">
+      <aside className="w-64 bg-[#005cb9] text-white p-6 hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] overflow-y-auto shadow-lg rounded-lg">
   <h2 className="text-2xl font-bold mb-4 text-center font-sans">Sample Questions</h2>
   <ul className="space-y-2">
     {sampleQuestions.map((question, index) => (
@@ -136,7 +135,7 @@ const ChatBot = ({ onLogout }) => {
       {/* Main Chat Section */}
       <div className="flex flex-col w-full ml-64"> {/* Adjust margin to avoid sidebar overlap */}
         {/* Header */}
-        <header className="bg-blue-900 text-white p-6 text-3xl font-semibold shadow-md flex justify-between items-center fixed top-0 left-0 right-0 z-10">
+        <header className="bg-[#005cb9] text-white p-6 text-3xl font-semibold shadow-md flex justify-between items-center fixed top-0 left-0 right-0 z-10">
   <div className="flex-1 text-center" style={{ marginLeft: "10%" }}>
     Medical Assistant ChatBot
   </div>
@@ -159,7 +158,7 @@ const ChatBot = ({ onLogout }) => {
         transition={{ duration: 0.3, delay: index * 0.1 }}
         className={`relative p-4 my-2 rounded-2xl w-fit max-w-md text-lg shadow-lg ${
           msg.sender === "You"
-            ? "bg-blue-900 text-white self-end hover"
+            ? "bg-[#005cb9] text-white self-end hover"
             : "bg-gradient-to-r from-blue-500 to-purple-500 text-white self-start"
         }`}
         
@@ -174,8 +173,14 @@ const ChatBot = ({ onLogout }) => {
           {msg.sender}
         </strong>
         <p className="mt-1 text-[15px] font-semibold tracking-wide">
-          {msg.text}
-        </p>
+  {msg.text.split("\n").map((line, i) => (
+    <React.Fragment key={i}>
+      {line.replace('\\n', '')}
+      <br />
+    </React.Fragment>
+  ))}
+</p>
+
       </motion.div>
     ))}
     {loading && (
@@ -223,7 +228,7 @@ const ChatBot = ({ onLogout }) => {
     />
      <button
   onClick={sendMessage}
-  className="ml-4 bg-blue-900 text-white hover:bg-red-600 hover:text-white focus:ring-4 focus:ring-blue-200 px-6 py-3 rounded-lg transition duration-300"
+  className="ml-4 bg-[#005cb9] text-white hover:bg-red-600 hover:text-white focus:ring-4 focus:ring-blue-200 px-6 py-3 rounded-lg transition duration-300"
 >
   🚀
 </button>
@@ -238,7 +243,7 @@ const ChatBot = ({ onLogout }) => {
     />
   <button
   onClick={sendMessage}
-  className="ml-4 bg-blue-900 text-white hover:bg-red-600 hover:text-white focus:ring-4 focus:ring-blue-200 px-6 py-3 rounded-lg transition duration-300"
+  className="ml-4 bg-[#005cb9] text-white hover:bg-red-600 hover:text-white focus:ring-4 focus:ring-blue-200 px-6 py-3 rounded-lg transition duration-300"
 >
   🚀
 </button>
@@ -248,7 +253,7 @@ const ChatBot = ({ onLogout }) => {
 
 
         {/* Footer */}
-        <footer className="bg-blue-900 text-white text-center p-4 text-sm fixed bottom-0 left-0 right-0 z-10">
+        <footer className="bg-[#005cb9] text-white text-center p-4 text-sm fixed bottom-0 left-0 right-0 z-10">
   &copy; 2025 Medi Assistant
 </footer>
 
@@ -272,12 +277,12 @@ const App = () => {
   };
 
   const loginscreen = <div className="flex flex-col h-screen w-full bg-white">
-   <header className="bg-blue-900 text-white p-6 text-3xl font-semibold shadow-md flex justify-between items-center">
+   <header className="bg-[#005cb9] text-white p-6 text-3xl font-semibold shadow-md flex justify-between items-center">
   <div className="flex-1 text-center" style={{ marginLeft: "5%" }}>Medical Assistant ChatBot</div>
 </header>
 
     {isAuthenticated ? <ChatBot onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}
-    <footer className="bg-blue-900 text-white text-center p-4 text-sm" >
+    <footer className="bg-[#005cb9] text-white text-center p-4 text-sm" >
   &copy; 2025 Medi Assistant
 </footer>
 
