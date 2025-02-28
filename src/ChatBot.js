@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { v4 as uuidv4 } from "uuid"; 
 
 
 const background_image = "url('')";
@@ -9,6 +10,8 @@ const Login = ({ onLogin }) => {
   const [ password, setPassword ] = useState("");
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
+
+
 
   const handleLogin = async () => {
     setLoading(true);
@@ -72,6 +75,17 @@ const ChatBot = ({ onLogout }) => {
   const [ input, setInput ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const chatContainerRef = useRef(null);
+  const [sessionId, setSessionId] = useState("");
+
+  const generateSessionId = () => {
+    const newSessionId = uuidv4();
+    sessionStorage.setItem("sessionId", newSessionId);
+    setSessionId(newSessionId);
+  };
+
+  useEffect(() => {
+    generateSessionId(); // Always generate a new UUID on page refresh
+  }, []);
 
   const sampleQuestions = [
     "Total number of patients",
@@ -87,8 +101,12 @@ const ChatBot = ({ onLogout }) => {
     setInput("");
     setMessages((prev) => [ ...prev, { sender: "You", text: input } ]);
     axios
-      .get(`https://66ublhyq3d4dmlljm5iqfasb6i0vykgu.lambda-url.us-west-2.on.aws/prompt?question=${encodeURIComponent(input)}`)
-      .then((response) => {
+    .get(`https://66ublhyq3d4dmlljm5iqfasb6i0vykgu.lambda-url.us-west-2.on.aws/prompt`, {
+      params: {
+        question: input,
+        sessionId: sessionId,  // Pass session ID to API
+      },
+    }).then((response) => {
         if (!response.data.response) {
           setMessages((prev) => [ ...prev, { sender: "Assistant", text: "Response not found." } ]);
           setLoading(false);
@@ -103,6 +121,7 @@ const ChatBot = ({ onLogout }) => {
         setMessages((prev) => [ ...prev, { sender: "Assistant", text: "Response not found." } ]);
         setLoading(false);
         setInput("");
+        generateSessionId();
       });
   };
 
