@@ -11,8 +11,6 @@ const Login = ({ onLogin }) => {
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
 
-
-
   const handleLogin = async () => {
     setLoading(true);
     try {
@@ -75,6 +73,59 @@ const ChatBot = ({ onLogout }) => {
   const [ input, setInput ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const chatContainerRef = useRef(null);
+
+  // const sampleQuestions = [
+  //   "Total number of patients",
+  //   "List all scans of patient John Doe"
+  //   , "List all medications of patient John Doe"
+  //   , "List all therapies of patient John Doe"
+  //   , "Summary of treatment history of patient John Doe"
+  // ];
+
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const toggleAccordion = (index) => {
+    setActiveIndex(index === activeIndex ? null : index); // Toggle the active section
+  };
+
+  const sampleQuestions = [
+    {
+      mainQuestion: "Clinical sample questions ?",
+      subQuestions: [
+        "Summarize john doe's oldest clinical visit.",
+        "Provide more detail on that john doe's clinical history."
+        
+    ]
+    
+    },
+    {
+      mainQuestion: "Report sample questions ?",
+      subQuestions: [
+        "Provide a summary of john doe's latest Guardant test result. ",
+        "can you tell me more information on ESR1 amplification mutation on john doe's report?",
+        "What kind of alteration is ESR1 amplification mutation on john doe's report?",
+        "What was the cfDNA percentage for PTEN-PSD3 mutation on john doe's report?",
+        "Was KRAS or NRAS detected on john doe's report? ",
+        "Were any CHIP alterations identified on this report? ",
+        "Have any germline alterations been identified on john doe’s report?",
+        "Was MSI-High Status detected in this of john doe's report? ",
+        "What was the TMB score on john doe's latest report? ",
+        "What is the tumor fraction on john doe’s test report?",
+        "What treatment options are available for MSI-High status?",
+    ]
+    },
+    {
+      mainQuestion: "Treatment sample questions ?",
+      subQuestions: [
+        "Are there any therapy recommendations based on john doe's latest test?",
+        "What adverse events were reported in studies involving Xarelto THERAPY?",
+        "Are there any clinical trials available based on john doe's latest test?",
+        "Is there any overall survival data regarding use of Xarelto THERAPY?",
+        "What is the progression free survival data for Xarelto THERAPY?"
+    ]
+    }
+  ];
+
   const [sessionId, setSessionId] = useState("");
 
   const generateSessionId = () => {
@@ -86,14 +137,6 @@ const ChatBot = ({ onLogout }) => {
   useEffect(() => {
     generateSessionId(); // Always generate a new UUID on page refresh
   }, []);
-
-  const sampleQuestions = [
-    "Total number of patients",
-    "List all scans of patient John Doe"
-    , "List all medications of patient John Doe"
-    , "List all therapies of patient John Doe"
-    , "Summary of treatment history of patient John Doe"
-  ];
 
   const sendMessage = () => {
     if (!input.trim()) return;
@@ -136,20 +179,41 @@ const ChatBot = ({ onLogout }) => {
       style={{ backgroundImage: background_image }} // Replace with your desired image URL
     >
       {/* Sidebar for Sample Questions */}
-      <aside className="w-64 bg-white text-white p-6 hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] overflow-y-auto shadow-lg rounded-lg" style={{marginTop:'2%'}}>
-        <h2 className="text-2xl font-bold mb-4 text-center font-sans text-[#005cb9]">Sample Questions</h2>
-        <ul className="space-y-2">
-          {sampleQuestions.map((question, index) => (
-            <li
-              key={index}
-              className="p-3 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-lg text-[#005cb9] hover:text-blue-900 cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
-              onClick={() => setInput(question)}
-            >
-              {question}
-            </li>
-          ))}
-        </ul>
-      </aside>
+      <aside 
+  className="w-64 bg-lightBlue-100 text-black p-6 hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] overflow-y-auto shadow-lg rounded-lg" 
+  style={{ marginTop: '2%',maxHeight:'85%'}}
+>
+  <h2 className="text-2xl font-bold mb-4 text-center font-sans text-[#005cb9]">Sample Questions</h2>
+  <div className="space-y-2" >
+    {sampleQuestions.map((question, index) => (
+      <div key={index}  style={{ border: "2px solid #005cb9", borderRadius: "8px" }} 
+      >
+        <button
+          className="w-full text-left p-3 bg-red bg-opacity-80 hover:bg-opacity-100 rounded-lg text-[#005cb9] hover:text-blue-900 cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
+          onClick={() => toggleAccordion(index)}
+        >
+          <span>{activeIndex === index ? '-' : '+'} {question.mainQuestion}</span>
+        </button>
+        {activeIndex === index && (
+          <div className="p-3 text-[#005cb9]">
+            <ul>
+              {question.subQuestions.map((subQuestion, subIndex) => (
+                <li
+                  key={subIndex}
+                  className="p-3 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-lg text-[#005cb9] hover:text-blue-900 cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
+                  onClick={() => setInput(subQuestion)}
+                  style={{backgroundColor:"#005cb9",color:"white",marginTop:"2%"}}
+                >
+                 <strong>• </strong>{subQuestion}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</aside>
 
       {/* Main Chat Section */}
       <div className="flex flex-col w-full ml-64"> {/* Adjust margin to avoid sidebar overlap */}
