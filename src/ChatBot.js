@@ -93,7 +93,12 @@ const ChatBot = ({ onLogout }) => {
       mainQuestion: "Clinical sample questions ?",
       subQuestions: [
         "Summarize john doe's oldest clinical visit.",
-        "Provide more detail on that john doe's clinical history."
+        "Provide more detail on that john doe's clinical history.",
+        "Can I see all of john doe's treatment history over time?",
+        "What were the details of john doe's cancer diagnosis?",
+        "What medications is john doe currently on?",
+        "When was john doe's latest scan?",
+        "What were the results of john doe's latest scan?"
         
     ]
     
