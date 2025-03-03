@@ -76,10 +76,10 @@ const ChatBot = ({ onLogout }) => {
 
   // const sampleQuestions = [
   //   "Total number of patients",
-  //   "List all scans of patient John Doe"
-  //   , "List all medications of patient John Doe"
-  //   , "List all therapies of patient John Doe"
-  //   , "Summary of treatment history of patient John Doe"
+  //   "List all scans of patient john doe"
+  //   , "List all medications of patient john doe"
+  //   , "List all therapies of patient john doe"
+  //   , "Summary of treatment history of patient john doe"
   // ];
 
   const [activeIndex, setActiveIndex] = useState(null);
@@ -202,7 +202,7 @@ const ChatBot = ({ onLogout }) => {
                   key={subIndex}
                   className="p-3 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-lg text-[#005cb9] hover:text-blue-900 cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
                   onClick={() => setInput(subQuestion)}
-                  style={{backgroundColor:"#005cb9",color:"white",marginTop:"2%"}}
+                  style={{backgroundColor:"#005cb9",color:"white",marginTop:"2%",fontSize: "12px"}}
                 >
                  <strong>• </strong>{subQuestion}
                 </li>
